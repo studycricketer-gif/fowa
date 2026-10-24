@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOWA</title>
+<meta name="description" content="Figuring Out With Akash. Startup stories, big company breakdowns and a podcast on wealth, health and education.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,600;1,800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: black stage, one oversized italic wordmark hero, then pillar rows, roadmap to 1M, podcast, contact. Monochrome by brand (black/white channel art). */
+:root{
+  --bg:#070707; --panel:#101010; --line:#262626; --fg:#f4f4f2; --mute:#9a9a96; --ink:#070707;
+  --display:'Barlow Condensed','Arial Narrow',Impact,sans-serif;
+  --body:'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.6 var(--body);margin:0;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);font-style:italic;font-weight:800;text-transform:uppercase;line-height:.92;margin:0;text-wrap:balance;letter-spacing:.005em}
+.label{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+
+/* lightning logo */
+.zap{position:relative;display:inline-block;animation:zapText 4.5s infinite;text-shadow:0 0 10px rgba(160,205,255,.28)}
+.bolt{position:absolute;left:-10px;top:-8px;width:calc(100% + 20px);height:calc(100% + 16px);overflow:visible;pointer-events:none;opacity:0;animation:zapBolt 4.5s infinite}
+.bolt path{fill:none;stroke:#fff;stroke-width:2;stroke-linejoin:miter;filter:drop-shadow(0 0 4px #9fd0ff) drop-shadow(0 0 10px #6fb0ff)}
+.bolt path+path{stroke-width:1.4;opacity:.8}
+@keyframes zapText{0%,84%,100%{text-shadow:0 0 10px rgba(160,205,255,.28);opacity:1}86%{text-shadow:0 0 8px #fff,0 0 22px #9fd0ff;opacity:.65}87%{opacity:1;text-shadow:0 0 14px #fff,0 0 34px #7fb8ff}89%{opacity:.55;text-shadow:0 0 6px #fff}90%{opacity:1;text-shadow:0 0 12px #fff,0 0 30px #7fb8ff}93%{text-shadow:0 0 16px rgba(160,205,255,.5)}}
+@keyframes zapBolt{0%,85%,100%{opacity:0}86%{opacity:1}87%{opacity:.15}88%{opacity:1}90%{opacity:0}91%{opacity:.7}92%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.zap,.bolt{animation:none}.bolt{opacity:0}}
+/* nav */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:15}
+nav{display:flex;justify-content:space-between;align-items:center;padding-block:14px;gap:16px;position:sticky;top:env(safe-area-inset-top,0px);z-index:14;background:rgba(7,7,7,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid transparent}
+.logo{display:flex;align-items:center;gap:12px}
+.logo img{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);display:block}
+.logo{font:800 italic 28px/1 var(--display);text-decoration:none;letter-spacing:.02em}
+.links{display:flex;gap:26px;font-size:14px;color:var(--mute)}
+.links a{text-decoration:none}.links a:hover{color:var(--fg)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--fg);color:var(--ink);padding:13px 22px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid var(--fg);transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--fg);border-color:#444}
+.btn.ghost:hover{border-color:var(--fg)}
+.pillar{transition:padding-left .35s cubic-bezier(.2,.7,.2,1),background .35s}
+.pillar h3{transition:color .35s,-webkit-text-stroke-color .35s}
+.pillar:hover{padding-left:14px;background:linear-gradient(90deg,#141414,transparent)}
+.pillar:hover h3{color:transparent;-webkit-text-stroke:2px var(--fg)}
+a.card{text-decoration:none;transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s}
+a.card:hover{transform:translateY(-6px);border-color:#555}
+a.card.light:hover{border-color:var(--fg)}
+.go{font:600 14px/1 var(--body);display:inline-flex;gap:8px;align-items:center}
+
+/* hero */
+.hero{padding-block:clamp(40px,8vw,96px) clamp(48px,7vw,80px)}
+.hero h1{font-size:clamp(64px,15vw,190px);line-height:.85}
+.hero h1 span{display:block;-webkit-text-stroke:2px var(--fg);color:transparent}
+.hero-row{margin-top:40px}
+.hero p{font-size:clamp(17px,2vw,21px);color:#cfcfcb;max-width:34em;margin:0 0 26px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.live{border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--panel)}
+.live dl{margin:14px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.live dt{font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+.live dd{margin:0;font:800 italic 44px/1 var(--display)}
+.live small{display:block;margin-top:14px;color:var(--mute);font-size:13px}
+
+/* marquee */
+.tape{border-block:1px solid var(--line);overflow:hidden;white-space:nowrap;padding-block:14px;margin-bottom:0}
+.tape div{display:inline-flex;gap:40px;animation:tape 30s linear infinite;font:800 italic 26px/1 var(--display);text-transform:uppercase;color:var(--mute)}
+.tape b{color:var(--fg);font-weight:800}
+@keyframes tape{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.tape div{animation:none}.btn{transition:none}html{scroll-behavior:auto}}
+
+section{padding-block:clamp(56px,8vw,104px)}
+.head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.head h2{font-size:clamp(44px,7vw,84px)}
+.head p{max-width:30em;color:var(--mute);margin:0}
+
+/* pillars */
+.pillar{display:grid;grid-template-columns:90px 1fr 1.1fr;gap:28px;padding-block:32px;border-top:1px solid var(--line);align-items:start}
+.pillar:last-child{border-bottom:1px solid var(--line)}
+.pillar .n{font:500 13px/1 var(--mono);color:var(--mute);padding-top:10px}
+.pillar h3{font-size:clamp(40px,6vw,72px)}
+.pillar ul{margin:0;padding:0;list-style:none;display:grid;gap:10px;color:#cfcfcb}
+.pillar li{padding-left:20px;position:relative}
+.pillar li::before{content:"";position:absolute;left:0;top:.7em;width:10px;height:1px;background:var(--fg)}
+.pillar p{margin:0 0 14px;color:var(--mute)}
+
+/* formats */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.card h3{font-size:38px}
+.card p{margin:0;color:#bdbdb9}
+.card .tag{margin-top:auto;padding-top:10px}
+.card.light{background:var(--fg);color:var(--ink);border-color:var(--fg)}
+.card.light p{color:#2a2a28}.card.light .label{color:#555}
+
+/* roadmap */
+.road{display:grid;gap:0}
+.step{display:grid;grid-template-columns:150px 1fr auto;gap:24px;padding-block:22px;border-top:1px solid var(--line);align-items:center}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step .big{font:800 italic 40px/1 var(--display)}
+.step p{margin:0;color:#bdbdb9}
+.pill{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;border:1px solid #444;border-radius:999px;padding:7px 12px;white-space:nowrap}
+.pill.now{background:var(--fg);color:var(--ink);border-color:var(--fg)}
+.bar{height:6px;border-radius:6px;background:var(--line);margin-top:28px;overflow:hidden}
+.bar i{display:block;height:100%;width:2%;background:var(--fg)}
+
+/* podcast */
+.pod{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;border:1px solid var(--line);border-radius:20px;padding:clamp(24px,5vw,56px);background:var(--panel)}
+.pod h2{font-size:clamp(44px,7vw,84px);margin:14px 0 18px}
+.pod p{color:#bdbdb9;margin:0 0 22px}
+.q{display:grid;gap:10px}
+.q div{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--bg);font-size:15px}
+.q span{display:block;margin-bottom:6px}
+
+.manifesto{border-block:1px solid var(--line)}
+.mf{font:800 italic clamp(60px,13vw,170px)/.9 var(--display);text-transform:uppercase;margin:0 0 36px;letter-spacing:.005em}
+.mf-row{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.mf-row p{margin:0;color:var(--mute);border-top:1px solid var(--line);padding-top:16px}
+.mf-row b{color:var(--fg);font-weight:600}
+@media (max-width:860px){.mf-row{grid-template-columns:1fr;gap:18px}}
+/* about */
+.about{display:block}
+.photo{aspect-ratio:1;max-width:100%;border-radius:50%;background:#000;border:1px solid var(--line);display:grid;place-items:center;overflow:hidden;position:relative}
+.photo b{font:800 italic clamp(90px,16vw,170px)/1 var(--display);letter-spacing:.02em;-webkit-text-stroke:2px var(--fg);color:transparent}
+.about h2{font-size:clamp(44px,7vw,84px);margin-bottom:22px}
+.about p{color:#cfcfcb;margin:0 0 16px;max-width:36em}
+
+/* contact */
+.contact{text-align:left;border-top:1px solid var(--line)}
+.contact h2{font-size:clamp(56px,11vw,150px);margin-bottom:28px}
+.contact p{color:var(--mute);max-width:32em;margin:0 0 26px}
+.mail{font:500 14px/1 var(--mono);border:1px solid #444;border-radius:10px;padding:14px 16px;display:inline-block;color:var(--fg);user-select:all;overflow-wrap:anywhere}
+footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:28px 40px;border-top:1px solid var(--line);color:var(--mute);font-size:13px}
+
+/* scroll animation: elements drop in from above, top to bottom */
+.js .rv{opacity:0;transform:translateY(-44px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.js .rv.in{opacity:1;transform:none}
+.js .hero h1.rv{transform:translateY(-90px)}
+.js .hero h1.rv.in{transform:none}
+.progress{position:fixed;top:env(safe-area-inset-top,0px);left:0;width:100%;height:3px;background:var(--fg);transform-origin:0 50%;transform:scaleX(0);z-index:20;pointer-events:none}
+.bar i{transition:width 1.6s cubic-bezier(.2,.7,.2,1) .3s}
+@media (prefers-reduced-motion:reduce){.js .rv,.js .hero h1.rv{opacity:1;transform:none;transition:none}.bar i{transition:none}}
+
+@media (max-width:860px){
+  nav{flex-wrap:wrap;row-gap:10px}
+  .links{order:3;width:100%;overflow-x:auto;gap:22px;padding-bottom:4px;scrollbar-width:none}
+  .links a{white-space:nowrap}
+  .hero-row,.pod,.about{grid-template-columns:1fr}
+  .grid3{grid-template-columns:1fr}
+  .pillar{grid-template-columns:1fr;gap:14px}
+  .step{grid-template-columns:1fr;gap:10px}
+  .step .pill{justify-self:start}
+  .about .photo{max-width:260px}
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="#top" aria-label="FOWA"><span class="zap">FOWA<svg class="bolt" viewBox="0 0 120 40" preserveAspectRatio="none" aria-hidden="true"><path d="M2 24 L24 12 L21 22 L52 6 L46 21 L80 10 L74 26 L118 14"/><path d="M30 38 L40 24 L36 26 L48 14"/></svg></span></a>
+    <div class="links"><a href="#pillars">Focus</a><a href="#content">Content</a><a href="#roadmap">Roadmap</a><a href="#podcast">Podcast</a><a href="#about">About</a></div>
+    <a class="btn" href="https://www.youtube.com/@FOWA-07" target="_blank" rel="noopener">Subscribe</a>
+  </nav>
+
+  <header class="hero" id="top">
+    <h1>Figuring<br><span>out with</span>Akash</h1>
+    <div class="hero-row">
+      <div>
+        <p>Startup stories, big company breakdowns and honest conversations about wealth, health and education. Built in public, one consistent video at a time.</p>
+        <div class="cta">
+          <a class="btn" href="https://www.youtube.com/@FOWA-07" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
+          <a class="btn ghost" href="#roadmap">The road to 1M</a>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<div class="tape" aria-hidden="true"><div>
+  <span><b>Wealth</b></span><span>/</span><span><b>Health</b></span><span>/</span><span><b>Education</b></span><span>/</span><span>Be consistent</span><span>/</span><span>Startup stories</span><span>/</span><span>Podcast</span><span>/</span>
+  <span><b>Wealth</b></span><span>/</span><span><b>Health</b></span><span>/</span><span><b>Education</b></span><span>/</span><span>Be consistent</span><span>/</span><span>Startup stories</span><span>/</span><span>Podcast</span><span>/</span>
+</div></div>
+
+<div class="wrap">
+  <section id="pillars">
+    <div class="head"><h2>Three things<br>that compound</h2><p>Money, body and mind. Every video and episode belongs to one of them, so the channel stays clear and the viewer knows what they get.</p></div>
+    <div>
+      <article class="pillar"><span class="n">PILLAR / A</span><h3>Wealth</h3><div><p>How money is actually made and kept.</p><ul><li>Startup journeys from zero to scale</li><li>How big companies make money</li><li>Saving, investing and income basics in simple Hindi-English</li></ul></div></article>
+      <article class="pillar"><span class="n">PILLAR / B</span><h3>Health</h3><div><p>Energy is the base of every goal.</p><ul><li>Sleep, food and training routines that last</li><li>Discipline and mental health for builders</li><li>Conversations with doctors and coaches</li></ul></div></article>
+      <article class="pillar"><span class="n">PILLAR / C</span><h3>Education</h3><div><p>Learning that is useful, not just a degree.</p><ul><li>Skills that pay: how to learn them fast</li><li>Career paths explained for Indian students</li><li>Books, courses and frameworks, summarised</li></ul></div></article>
+    </div>
+  </section>
+
+  <section id="content">
+    <div class="head"><h2>What I make</h2><p>Three formats that feed each other. Shorts bring people in, long videos build trust, the podcast goes deep.</p></div>
+    <div class="grid3">
+      <a class="card light" href="https://www.youtube.com/@FOWA-07/videos" target="_blank" rel="noopener"><span class="label">Long form</span><h3>Startup &amp; company stories</h3><p>The founding story, the near-death moment, the business model and the lesson. Researched, scripted and told simply.</p><span class="label tag">8–15 min</span><span class="go">Watch videos &rarr;</span></a>
+      <div class="card"><span class="label">Conversation</span><h3>The FOWA podcast</h3><p>Founders, creators, doctors and teachers talking about how they figured it out, with no scripts.</p><span class="label tag">40–70 min</span><span class="go" style="color:var(--mute)">Coming soon</span></div>
+      <a class="card" href="https://www.youtube.com/@FOWA-07/shorts" target="_blank" rel="noopener"><span class="label">Shorts</span><h3>One idea, 45 seconds</h3><p>A single lesson from a company, a habit or a number. Built to be shared and to lead to the full video.</p><span class="label tag">Daily</span><span class="go">Watch shorts &rarr;</span></a>
+    </div>
+  </section>
+
+  <section id="roadmap">
+    <div class="head"><h2>Road to 1,000,000</h2><p>A public plan. Each stage has one job, so the work stays focused on what moves the channel next.</p></div>
+    <div class="road">
+      <div class="step"><span class="big">0 → 1K</span><p>Find the voice. Post consistently, test titles and thumbnails, learn which stories people finish watching.</p><span class="pill now">We are here</span></div>
+      <div class="step"><span class="big">1K → 10K</span><p>Lock the series. Two long videos a week plus daily shorts, one repeatable format per pillar.</p><span class="pill">Next</span></div>
+      <div class="step"><span class="big">10K → 100K</span><p>Launch the podcast. Bring in guests, cut clips, build an email list and a community.</p><span class="pill">Later</span></div>
+      <div class="step"><span class="big">100K → 1M</span><p>Build the ecosystem. Courses, a team, partnerships and live events around wealth, health and education.</p><span class="pill">Vision</span></div>
+    </div>
+    <div class="bar" role="img" aria-label="Progress toward one million subscribers: just started"><i></i></div>
+  </section>
+
+  <section id="podcast">
+    <div class="pod">
+      <div>
+        <span class="label">Podcast / coming soon</span>
+        <h2>Real talk,<br>no filter</h2>
+        <p>Long conversations with people who built something: a company, a body, a career. Every guest answers the same question: how did you figure it out?</p>
+        <a class="btn" href="https://www.youtube.com/@FOWA-07" target="_blank" rel="noopener">Get notified</a>
+      </div>
+      <div class="q">
+        <div><span class="label">Wealth</span>What was your first rupee of income, and what did you do with it?</div>
+        <div><span class="label">Health</span>Which daily habit changed your energy the most?</div>
+        <div><span class="label">Education</span>What did you learn outside class that mattered more than any degree?</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="manifesto" aria-label="Manifesto">
+    <p class="mf">Be consistent.</p>
+    <div class="mf-row">
+      <p><b>Show up.</b> One video, one lesson, every week, even when nobody is watching yet.</p>
+      <p><b>Learn in public.</b> Mistakes and wins both go on camera, so you can skip the slow parts.</p>
+      <p><b>Compound.</b> Small gains in money, health and skills add up to a different life.</p>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="about">
+      <div>
+        <span class="label">About</span>
+        <h2>I'm Akash.<br>Still figuring it out.</h2>
+        <p>FOWA started as a simple idea: learn in public. I study how startups and big companies were built, what their founders got wrong, and what any of us can copy for our own money, health and education.</p>
+        <p>The channel runs on one rule: be consistent. The goal is one million people learning together, and this site is where the journey is tracked.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <span class="label">Collaborate</span>
+    <h2>Let's build<br>something</h2>
+    <p>Guest on the podcast, a brand partnership or a story idea you want covered. Reach out.</p>
+    <div class="cta">
+      <a class="btn" href="https://www.youtube.com/@FOWA-07" target="_blank" rel="noopener">@FOWA-07 on YouTube &rarr;</a>
+      <span class="mail" id="mail">fowabusinesses@gmail.com</span>
+    </div>
+  </section>
+
+  <footer><span>&copy; 2026 FOWA. Figuring Out With Akash.</span><span>Be consistent.</span></footer>
+</div>
+<div class="progress" id="prog" aria-hidden="true"></div>
+<script>
+(function(){
+  var root=document.documentElement;
+  var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var prog=document.getElementById('prog');
+  function onScroll(){
+    var h=root.scrollHeight-window.innerHeight;
+    prog.style.transform='scaleX('+(h>0?Math.min(1,window.scrollY/h):0)+')';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  if(calm||!('IntersectionObserver' in window))return;
+  var sel=['.hero h1','.hero p','.hero .cta','.head','.pillar','.card','.step','.bar','.pod','.mf','.mf-row p','.about > *','.contact > *','footer'];
+  var els=Array.prototype.slice.call(document.querySelectorAll(sel.join(',')));
+  var seen=new Map();
+  els.forEach(function(el){
+    var p=el.parentNode,i=seen.get(p)||0;seen.set(p,i+1);
+    el.style.setProperty('--d',Math.min(i*0.12,0.6)+'s');
+    el.classList.add('rv');
+  });
+  root.classList.add('js');
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){var t=e.target;t.classList.add('in');io.unobserve(t);
+      t.addEventListener('transitionend',function done(ev){if(ev.propertyName!=='transform')return;t.classList.remove('rv','in');t.style.removeProperty('--d');t.removeEventListener('transitionend',done);});if(e.target.classList.contains('bar')){var b=e.target.querySelector('i');if(b)b.style.width='2%';}}});
+  },{threshold:0.12,rootMargin:'0px 0px -6% 0px'});
+  requestAnimationFrame(function(){els.forEach(function(el){io.observe(el);});});
+})();
+</script>
+
+</body>
+</html>
