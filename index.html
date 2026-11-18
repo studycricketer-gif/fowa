@@ -226,6 +226,8 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;paddin
 .about h2{font-size:clamp(56px,9.5vw,160px);margin-bottom:clamp(24px,3vw,44px)}
 .about p{font-size:clamp(18px,1.7vw,25px);line-height:1.6;max-width:36em;margin-bottom:22px}
 .about .label{font-size:clamp(12px,.95vw,14px)}
+/* cursor smoke */
+#smoke{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:18;mix-blend-mode:screen}
 </style>
 
 </head>
@@ -362,6 +364,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;paddin
   <footer><span>&copy; 2026 FOWA. Figuring Out With Akash.</span><span>Be consistent.</span></footer>
 </div>
 <div class="progress" id="prog" aria-hidden="true"></div>
+<canvas id="smoke" aria-hidden="true"></canvas>
 <script>
 (function(){
   var root=document.documentElement;
@@ -407,6 +410,58 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;paddin
     t.classList.add('out');
     setTimeout(function(){show(i);t.classList.remove('out');},450);
   },5000);
+})();
+</script>
+<script>
+(function(){
+  var cv=document.getElementById('smoke');
+  if(!cv||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))return;
+  var ctx=cv.getContext('2d'),dpr=1,W=0,H=0;
+  function size(){dpr=Math.min(window.devicePixelRatio||1,2);W=window.innerWidth;H=window.innerHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+  size();window.addEventListener('resize',size);
+  function sprite(rgb){
+    var s=128,c=document.createElement('canvas');c.width=c.height=s;var g=c.getContext('2d');
+    var gr=g.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
+    gr.addColorStop(0,'rgba('+rgb+',1)');gr.addColorStop(.35,'rgba('+rgb+',.55)');gr.addColorStop(1,'rgba('+rgb+',0)');
+    g.fillStyle=gr;g.fillRect(0,0,s,s);return c;
+  }
+  var puffs=[sprite('225,222,218'),sprite('255,92,76')];
+  var P=[],MAX=260,lx=null,ly=null,running=false,t=0;
+  function emit(x,y,vx,vy){
+    if(P.length>=MAX)P.shift();
+    var red=Math.random()<.22;
+    P.push({x:x+(Math.random()-.5)*14,y:y+(Math.random()-.5)*14,
+      vx:vx*.12+(Math.random()-.5)*.9,vy:vy*.12+(Math.random()-.5)*.9-.25,
+      s:38+Math.random()*34,g:.55+Math.random()*.5,l:0,d:.011+Math.random()*.009,
+      a:red?.1:.14,img:puffs[red?1:0],ph:Math.random()*6.28});
+  }
+  function move(x,y){
+    if(lx===null){lx=x;ly=y;}
+    var dx=x-lx,dy=y-ly,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<2)return;
+    var n=Math.min(7,Math.ceil(d/10));
+    for(var i=1;i<=n;i++)emit(lx+dx*i/n,ly+dy*i/n,dx,dy);
+    lx=x;ly=y;start();
+  }
+  window.addEventListener('mousemove',function(e){move(e.clientX,e.clientY);},{passive:true});
+  window.addEventListener('touchmove',function(e){var q=e.touches[0];if(q)move(q.clientX,q.clientY);},{passive:true});
+  window.addEventListener('touchend',function(){lx=ly=null;},{passive:true});
+  document.addEventListener('mouseleave',function(){lx=ly=null;});
+  function start(){if(!running){running=true;requestAnimationFrame(tick);}}
+  function tick(){
+    t+=.016;ctx.clearRect(0,0,W,H);
+    for(var i=P.length-1;i>=0;i--){
+      var p=P[i];p.l+=p.d;
+      if(p.l>=1){P.splice(i,1);continue;}
+      p.vx=p.vx*.985+Math.sin(t*1.6+p.ph+p.y*.012)*.035;
+      p.vy=p.vy*.985-.022;
+      p.x+=p.vx;p.y+=p.vy;
+      var r=p.s*(1+p.l*p.g*2.6),a=p.a*Math.pow(1-p.l,1.6);
+      ctx.globalAlpha=a;ctx.drawImage(p.img,p.x-r,p.y-r,r*2,r*2);
+    }
+    ctx.globalAlpha=1;
+    if(P.length)requestAnimationFrame(tick);else running=false;
+  }
 })();
 </script>
 
