@@ -154,6 +154,11 @@ section{padding-block:clamp(56px,8vw,104px)}
 .dev.tall header{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .dev.tall b{font-size:clamp(17px,2.3vw,40px);line-height:1.02;letter-spacing:-.03em;color:var(--red)}
 .road-band .road{border-top:0}
+.wm{font:800 clamp(14px,1.5vw,22px)/1 var(--display);letter-spacing:-.03em;color:#fff}
+.thought{transition:opacity .45s ease,transform .45s ease}
+.thought.out{opacity:0;transform:translateY(10px)}
+@media (prefers-reduced-motion:reduce){.thought{transition:none}}
+.dev.tall b.thought{font-size:clamp(15px,1.9vw,32px);text-transform:uppercase;line-height:1.05}
 .road-band .step{grid-template-columns:minmax(200px,300px) 1fr auto;border-top:1px solid rgba(255,255,255,.4);padding-block:26px}
 .road-band .step .big{white-space:nowrap}
 .dev small{white-space:nowrap}
@@ -266,13 +271,13 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;paddin
         </div>
         <div class="rb-art" aria-hidden="true">
           <div class="dev land">
-            <span class="mark">F</span>
+            <span class="wm">FOWA</span>
             <b>Be consistent.</b>
             <small>AKASH &middot; FOWA</small>
           </div>
           <div class="dev tall">
-            <header><span class="mark">F</span><small>STEP 01</small></header>
-            <b>FROM ZERO TO ONE MILLION. ONE VIDEO AT A TIME.</b>
+            <header><span class="wm">FOWA</span><small id="thoughtNo">01 / 04</small></header>
+            <b class="thought" id="thought">From zero to one million. One video at a time.</b>
             <small>AKASH &middot; FOWA</small>
           </div>
         </div>
@@ -361,6 +366,26 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;paddin
       t.addEventListener('transitionend',function done(ev){if(ev.propertyName!=='transform')return;t.classList.remove('rv','in');t.style.removeProperty('--d');t.removeEventListener('transitionend',done);});if(e.target.classList.contains('bar')){var b=e.target.querySelector('i');if(b)b.style.width='2%';}}});
   },{threshold:0.12,rootMargin:'0px 0px -6% 0px'});
   requestAnimationFrame(function(){els.forEach(function(el){io.observe(el);});});
+})();
+</script>
+<script>
+(function(){
+  var t=document.getElementById('thought'),n=document.getElementById('thoughtNo');
+  if(!t||!n)return;
+  var list=[
+    'From zero to one million. One video at a time.',
+    'Wealth is built in years, not days. Start small and stay consistent.',
+    'Health is the first investment. Sleep, move and eat like it matters.',
+    'Learn one useful skill every month. It compounds like money.'
+  ];
+  var i=0;
+  function show(k){t.textContent=list[k];n.textContent='0'+(k+1)+' / 0'+list.length;}
+  show(0);
+  setInterval(function(){
+    i=(i+1)%list.length;
+    t.classList.add('out');
+    setTimeout(function(){show(i);t.classList.remove('out');},450);
+  },5000);
 })();
 </script>
 
